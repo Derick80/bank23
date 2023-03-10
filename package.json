@@ -1,6 +1,9 @@
 {
   "private": true,
   "sideEffects": false,
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "build": "remix build",
     "deploy": "fly deploy --remote-only",
@@ -32,6 +35,7 @@
     "@remix-run/dev": "^1.14.0",
     "@remix-run/eslint-config": "^1.14.0",
     "@types/chroma-js": "^2.4.0",
+    "@types/node": "^18.15.0",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "eslint": "^8.27.0",
@@ -39,7 +43,8 @@
     "prettier-plugin-tailwindcss": "^0.2.4",
     "prisma": "^4.11.0",
     "tailwindcss": "^3.2.7",
-    "typescript": "^4.8.4"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
   },
   "engines": {
     "node": ">=14"

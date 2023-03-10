@@ -6,13 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
 
 model User {
-  id       Int      @id @unique @default(autoincrement())
+  id       Int      @id @unique @default(sequence())
   email    String   @unique
   password String?
   username String   @unique
@@ -26,7 +26,7 @@ model User {
 }
 
 model Extendprofile {
-  id Int @id @unique @default(autoincrement())
+  id Int @id @unique @default(sequence())
   avatarUrl String?
   user User @relation(fields: [userId], references: [id])
   userId Int @unique
@@ -35,7 +35,7 @@ model Extendprofile {
 }
 
 model Income {
-  id Int @id @unique @default(autoincrement())
+  id Int @id @unique @default(sequence())
   source String
   dueDate DateTime
   amount Float
@@ -48,7 +48,7 @@ model Income {
 
 
 model IncomeCategory {
-  id Int @id @unique @default(autoincrement())
+  id Int @id @unique @default(sequence())
   title String @unique
   incomes Income[]
   createdAt DateTime @default(now())
@@ -58,7 +58,7 @@ model IncomeCategory {
 
 
 model Expense {
-  id Int @id @unique @default(autoincrement())
+  id Int @id @unique @default(sequence())
   source String
   dueDate DateTime
   amount Float
@@ -70,7 +70,7 @@ model Expense {
 }
 
 model ExpenseCategory {
-  id Int @id @unique @default(autoincrement())
+  id Int @id @unique @default(sequence())
   title String @unique
   expenses Expense[]
   createdAt DateTime @default(now())
