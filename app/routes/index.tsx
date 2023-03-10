@@ -85,7 +85,6 @@ export default function Index() {
           </NavLink>
           <div className='text-xl italic'>${eSubTotal}</div>
           <ItemCard data={data.expenses} type='expense' />
-          <DataTable data={data.expenses} type='expense' />
           <div className='flex flex-col items-center   py-2 text-center'>
             <h3 className='text-2xl font-bold'>
               Expenses by Category and Percentage
@@ -94,7 +93,7 @@ export default function Index() {
               {data.eByCandP.map((item) => {
                 return (
                   <BandChart
-                    key={item.id}
+                    key={item.category}
                     {...item}
                     bgFill={item.fills}
                     itemWidth={item.percentage}
@@ -113,7 +112,7 @@ export default function Index() {
             <PlusCircledIcon />
           </NavLink>
           <div className='text-xl italic'>${iSubTotal}</div>
-          <DataTable data={data.incomes} type='income' />
+          <ItemCard data={data.incomes} type='income' />
           <div className='flex flex-col items-center   py-2 text-center'>
             <h3 className='text-2xl font-bold'>
               Expenses by Category and Percentage
