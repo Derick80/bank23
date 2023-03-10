@@ -53,7 +53,7 @@ export const AuthForm = ({ authType }: Props) => {
         />
       </>
 
-      {authType === 'login' && (
+
         <>
           <label>Password</label>
           <input
@@ -65,7 +65,7 @@ export const AuthForm = ({ authType }: Props) => {
             placeholder='********'
           />
         </>
-      )}
+
 
       <button className='mt-5' type='submit'>
         {button}
