@@ -65,7 +65,7 @@ export async function action({ request, params }: ActionArgs) {
         amount,
         dueDate: new Date(dueDate),
         expenseCategory: {
-          connect: {
+          set: {
             title
           }
         }

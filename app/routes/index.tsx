@@ -25,6 +25,11 @@ export default function Index() {
     (acc: number, income: { amount: number }) => acc + income.amount,
     0
   )
+  const eSubTotal = data.expenses.reduce(
+    (acc: number, expense: { amount: number }) => acc + expense.amount,
+    0
+  )
+
 
   return (
     <div className='flex flex-col py-2 text-center'>
@@ -36,7 +41,9 @@ export default function Index() {
             <p>New</p>
             <PlusCircledIcon />
           </NavLink>
-          <div className='text-xl italic'></div>
+          <div className='text-xl italic'>
+            ${eSubTotal}
+          </div>
 <DataTable data={data.expenses} type='expense' />
         </div>
 
