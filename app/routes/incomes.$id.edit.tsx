@@ -70,7 +70,7 @@ export async function action({ request, params }: ActionArgs) {
 }
 
 export default function EditRoute() {
-  const {income} = useLoaderData<{income: Income}>()
+  const { income } = useLoaderData<{ income: Income }>()
 
   const routeData = useRouteLoaderData('root') as {
     iCategories: IncomeCategory[]
@@ -93,7 +93,7 @@ export default function EditRoute() {
       >
         <label htmlFor='source'>Source</label>
         <input
-          className='rounded-md border shadow-sm text-black p-2'
+          className='rounded-md border p-2 text-black shadow-sm'
           defaultValue={income.source}
           type='text'
           name='source'
@@ -101,7 +101,7 @@ export default function EditRoute() {
         />
         <label htmlFor='amount'>Amount</label>
         <input
-          className='rounded-md border shadow-sm text-black p-2'
+          className='rounded-md border p-2 text-black shadow-sm'
           defaultValue={income.amount}
           type='number'
           name='amount'
@@ -109,16 +109,17 @@ export default function EditRoute() {
         />
         <label htmlFor='dueDate'>Due Date</label>
         <input
-          className='rounded-md border shadow-sm text-black p-2'
+          className='rounded-md border p-2 text-black shadow-sm'
           type='date'
           name='dueDate'
           id='dueDate'
           defaultValue={format(new Date(income.dueDate), 'yyyy-MM-dd')}
         />
         {income.incomeCategory && (
-          <select name='category' id='category'
-          className='rounded-md border shadow-sm text-black p-2'
-
+          <select
+            name='category'
+            id='category'
+            className='rounded-md border p-2 text-black shadow-sm'
           >
             {iCategories.map((category) => {
               return (
