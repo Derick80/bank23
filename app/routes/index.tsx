@@ -23,7 +23,7 @@ const expenses = await getCurrentExpenses(user.id)
 const limitedIncome = incomes.map((income) => {
   return {
     amount: income.amount,
-    category: income.categories.map((category) => category.title).toString(),
+    category: income.categories.map((category) => category.title).toString().slice(0,1)
   }
 })
 console.log(limitedIncome, 'limitedIncome');
@@ -32,7 +32,7 @@ console.log(limitedIncome, 'limitedIncome');
 const limitedExpenses = expenses.map((expense) => {
   return {
     amount: expense.amount,
-    category: expense.categories.map((category) => category.title).toString(),
+    category: expense.categories.map((category) => category.title).toString().slice(0,1)
 
   }
 })
@@ -60,7 +60,6 @@ export default function Index() {
     (acc: number, expense: { amount: number }) => acc + expense.amount,
     0
   )
-const scale = ['red', 'green', 'blue']
 
   return (
     <div className='flex flex-col py-2 text-center'>
@@ -109,7 +108,7 @@ const scale = ['red', 'green', 'blue']
        {
           data.iByCandP.map((item) => {
             return <BandChart key={item.id} {...item}
-
+            category={item.category}
               bgFill={item.fills} itemWidth={item.percentage}
             />
           })

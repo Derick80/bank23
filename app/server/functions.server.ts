@@ -11,9 +11,6 @@ export function dateRange() {
   return { now, then }
 }
 
-export async function totalGroup(){
-
-}
 export  function categoriesAndPercentage(
   array: {
     amount: number

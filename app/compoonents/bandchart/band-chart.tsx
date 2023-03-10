@@ -2,13 +2,15 @@ export interface BandChartProps {
     bgFill: string
     itemWidth: number
     id: string
-    percentage: number | string
+    percentage: number | string,
+    category: string
   }
 
   export function BandChart({
     bgFill,
     itemWidth,
     id,
+    category,
     percentage
   }: BandChartProps) {
     return (
@@ -19,6 +21,8 @@ export interface BandChartProps {
           backgroundColor: `${bgFill}`,
           width: `${itemWidth}%`
         }}
-      ></span>
+      >
+       <p className='translate-y-4 space-between flex text-[8px]'>{category} </p>
+      </span>
     )
   }
