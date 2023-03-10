@@ -4,6 +4,7 @@ import { json, redirect } from '@remix-run/node'
 import { NavLink, useLoaderData } from '@remix-run/react'
 import DataTable from '~/compoonents/display-data-table'
 import { isAuthenticated } from '~/server/auth/auth.server'
+import { getCurrentExpenses } from '~/server/expense.server'
 import { getCurrentIncomes } from '~/server/incomes.server'
 import type { CorrectedIncome } from '~/types/types'
 
@@ -13,12 +14,12 @@ export async function loader({ request }: LoaderArgs) {
     return redirect('/login')
   }
   const incomes = await getCurrentIncomes(user.id)
-
-  return json({ incomes })
+const expenses = await getCurrentExpenses(user.id)
+  return json({ incomes, expenses })
 }
 
 export default function Index() {
-  const data = useLoaderData<{ incomes: CorrectedIncome }>()
+  const data = useLoaderData<{ incomes: CorrectedIncome , expenses:CorrectedIncome}>()
 
   const iSubTotal = data.incomes.reduce(
     (acc: number, income: { amount: number }) => acc + income.amount,
@@ -36,7 +37,7 @@ export default function Index() {
             <PlusCircledIcon />
           </NavLink>
           <div className='text-xl italic'></div>
-          {/* <DataTable data={data.expenses} category={data.expenses.map((item)=> item.expenseCategory)} type='expense' /> */}
+<DataTable data={data.expenses} type='expense' />
         </div>
 
         {/* incomes */}

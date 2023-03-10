@@ -1,9 +1,8 @@
-import { ExpenseCategory } from '@prisma/client'
 import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons'
 import { NavLink, useFetcher } from '@remix-run/react'
 import { format } from 'date-fns'
 import React from 'react'
-import { Expense } from '~/types/types'
+import type { Expense } from '~/types/types'
 
 export type DTPropsExpense = {
   data: {
