@@ -5,7 +5,6 @@ import bcrypt from 'bcryptjs'
 import { getUser, createUser, getUserPasswordHash } from '~/server/user.server'
 import type { AuthInput } from '~/types/types'
 
-
 export const registerStrategy = new FormStrategy(async ({ form }) => {
   const email = form.get('email')
   const username = form.get('username')

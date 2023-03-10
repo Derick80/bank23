@@ -44,10 +44,11 @@ export const discordStrategy = new DiscordStrategy(
     const user = await createUser({
       email: profile.emails ? profile.emails[0].value : '',
       username: profile.displayName,
-      extendprofile:{
-        create:{
-          avatarUrl: profile.photos ? profile.photos[0].value : '',
-      }},
+      extendprofile: {
+        create: {
+          avatarUrl: profile.photos ? profile.photos[0].value : ''
+        }
+      },
       account: {
         provider: profile.provider,
         providerAccountId: profile.id,

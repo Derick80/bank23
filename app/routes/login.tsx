@@ -6,8 +6,6 @@ import { AuthForm } from '~/compoonents/auth/auth-form'
 import { SocialLoginForm } from '~/compoonents/auth/social-login-form'
 import { isAuthenticated, authenticator } from '~/server/auth/auth.server'
 
-
-
 type ActionData = {
   formError?: string
   fieldErrors?: {
