@@ -30,7 +30,7 @@ export type DTPropsIncome = {
 export default function DataTable({ data, type }: DTPropsExpense) {
   const [edit, setEdit] = React.useState(false)
   const deleteFetcher = useFetcher()
-
+  const detailsFetcher = useFetcher()
   // console.log(categories, 'category');
 
   const isIncome = type === 'income' ? true : false
@@ -51,11 +51,10 @@ export default function DataTable({ data, type }: DTPropsExpense) {
         <tbody>
           {data.map((item) => (
             <tr key={item.id}>
-
-                <>
-                  <td className='border px-4 py-2 text-sm'>{item.source}</td>
-                </>
-                           <td className='border px-4 py-2 text-sm'>
+              <>
+                <td className='border px-4 py-2 text-sm'>{item.source}</td>
+              </>
+              <td className='border px-4 py-2 text-sm'>
                 {item.categories.map((category, index) => (
                   <span key={index}>{category.title.split(',')}</span>
                 ))}
@@ -102,7 +101,10 @@ export default function DataTable({ data, type }: DTPropsExpense) {
                     method='post'
                     action={`/expenses/${item.id}/delete`}
                   >
-                    <button className='text-orange-500'>
+                    <button
+                    onClick={() => console.log(`/expenses/${item.id}/delete`)
+                    }
+                    className='text-orange-500'>
                       <TrashIcon />
                     </button>
                   </deleteFetcher.Form>

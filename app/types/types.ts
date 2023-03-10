@@ -43,9 +43,9 @@ export type CommonEntries = {
 }[]
 export type CorrectedIncome = SerializeFrom<CommonEntries>
 
-export type BandContainerObjectProps ={
-category: string
-amount: number
-percentage: number
-fills: string
+export type BandContainerObjectProps = {
+  category: string
+  amount: number
+  percentage: number
+  fills: string
 }
