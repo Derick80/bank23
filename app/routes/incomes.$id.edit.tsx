@@ -93,7 +93,7 @@ export default function EditRoute() {
       >
         <label htmlFor='source'>Source</label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border shadow-sm text-black p-2'
           defaultValue={income.source}
           type='text'
           name='source'
@@ -101,7 +101,7 @@ export default function EditRoute() {
         />
         <label htmlFor='amount'>Amount</label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border shadow-sm text-black p-2'
           defaultValue={income.amount}
           type='number'
           name='amount'
@@ -109,14 +109,17 @@ export default function EditRoute() {
         />
         <label htmlFor='dueDate'>Due Date</label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border shadow-sm text-black p-2'
           type='date'
           name='dueDate'
           id='dueDate'
           defaultValue={format(new Date(income.dueDate), 'yyyy-MM-dd')}
         />
         {income.incomeCategory && (
-          <select name='category' id='category'>
+          <select name='category' id='category'
+          className='rounded-md border shadow-sm text-black p-2'
+
+          >
             {iCategories.map((category) => {
               return (
                 <option

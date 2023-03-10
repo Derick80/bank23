@@ -1,7 +1,7 @@
 import type { IncomeCategory, ExpenseCategory } from '@prisma/client';
 import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node'
-import { useLoaderData, useRouteLoaderData, Form } from '@remix-run/react'
+import { useLoaderData, useRouteLoaderData, Form, useNavigate, useNavigation } from '@remix-run/react'
 import { format } from 'date-fns'
 import invariant from 'tiny-invariant'
 import { isAuthenticated } from '~/server/auth/auth.server'
@@ -77,7 +77,7 @@ export async function action({ request, params }: ActionArgs) {
 
   export default function EditRoute() {
     const {expense} = useLoaderData<{expense: Expense}>()
-
+const navigate = useNavigation()
     const routeData = useRouteLoaderData('root') as {
       iCategories: IncomeCategory[]
       eCategories: ExpenseCategory[]
@@ -100,7 +100,7 @@ export async function action({ request, params }: ActionArgs) {
         >
           <label htmlFor='source'>Source</label>
           <input
-            className='rounded-md border shadow-sm'
+            className='rounded-md border shadow-sm text-black p-2'
             defaultValue={expense.source}
             type='text'
             name='source'
@@ -108,7 +108,7 @@ export async function action({ request, params }: ActionArgs) {
           />
           <label htmlFor='amount'>Amount</label>
           <input
-            className='rounded-md border shadow-sm'
+            className='rounded-md border shadow-sm text-black p-2'
             defaultValue={expense.amount}
             type='number'
             name='amount'
@@ -116,14 +116,16 @@ export async function action({ request, params }: ActionArgs) {
           />
           <label htmlFor='dueDate'>Due Date</label>
           <input
-            className='rounded-md border shadow-sm'
+            className='rounded-md border shadow-sm text-black p-2'
             type='date'
             name='dueDate'
             id='dueDate'
             defaultValue={format(new Date(expense.dueDate), 'yyyy-MM-dd')}
           />
           {expense.expenseCategory && (
-            <select name='category' id='category'>
+            <select name='category' id='category'
+            className='rounded-md border shadow-sm text-black p-2'
+            >
               {eCategories.map((category) => {
                 return (
                   <option
@@ -137,7 +139,8 @@ export async function action({ request, params }: ActionArgs) {
             </select>
           )}
 
-          <button type='submit'>Submit</button>
+          <button type='submit'>            <p>{navigate.state === 'submitting' ? 'Saving...' : 'Save'}</p>
+</button>
         </Form>
 
         <pre className='text-xs'>{JSON.stringify(expense, null, 2)}</pre>
