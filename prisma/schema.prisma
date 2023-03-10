@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id       Int      @id @unique @default(autoincrement())
+  email    String   @unique
+  password String?
+  username String   @unique
+  extendprofile Extendprofile?
+  createdAt DateTime @default(now())
+  account Account[]
+  token Token[]
+  incomes Income[]
+  expenses Expense[]
+
+}
+
+model Extendprofile {
+  id Int @id @unique @default(autoincrement())
+  avatarUrl String?
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+  updatedAt DateTime @default(now())
+
+}
+
+model Income {
+  id Int @id @unique @default(autoincrement())
+  source String
+  dueDate DateTime
+  amount Float
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  incomeCategory IncomeCategory[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+
+model IncomeCategory {
+  id Int @id @unique @default(autoincrement())
+  title String @unique
+  incomes Income[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+}
+
+
+model Expense {
+  id Int @id @unique @default(autoincrement())
+  source String
+  dueDate DateTime
+  amount Float
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  expenseCategory ExpenseCategory[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model ExpenseCategory {
+  id Int @id @unique @default(autoincrement())
+  title String @unique
+  expenses Expense[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+}
+model Token {
+  id        String    @id @default(cuid())
+  token     String
+  type      TokenType
+  expiresAt DateTime?
+  sentTo    String?
+  usedAt    DateTime?
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([token, type])
+  @@index([userId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  provider          String
+  providerAccountId String
+  refreshToken      String?
+  accessToken       String?
+  expiresAt         Int?
+  userId            Int
+  user              User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+enum Role {
+  ADMIN
+  USER
+  MEMBER
+}
+
+enum TokenType {
+  REFRESH_TOKEN
+  VERIFY_EMAIL
+  RESET_PASSWORD
+}
+
