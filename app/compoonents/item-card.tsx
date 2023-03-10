@@ -1,9 +1,9 @@
-import { IncomeCategory, ExpenseCategory } from '@prisma/client'
-import { ChevronDownIcon, ChevronUpIcon, DividerHorizontalIcon, PaperPlaneIcon, Pencil1Icon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons'
+import type { IncomeCategory, ExpenseCategory } from '@prisma/client'
+import { PaperPlaneIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
 import { useFetcher, useRouteLoaderData } from '@remix-run/react'
 import { format } from 'date-fns'
 import React from 'react'
-import { DTPropsExpense } from './display-data-table'
+import type { DTPropsExpense } from './display-data-table'
 
 export default function ItemCard({ data, type }: DTPropsExpense) {
     const {iCategories,eCategories} = useRouteLoaderData('root') as {
