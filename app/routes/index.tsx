@@ -8,7 +8,7 @@ import { isAuthenticated } from '~/server/auth/auth.server'
 import { getCurrentExpenses } from '~/server/expense.server'
 import { categoriesAndPercentage } from '~/server/functions.server'
 import { getCurrentIncomes } from '~/server/incomes.server'
-import type { CorrectedIncome } from '~/types/types'
+import type { BandContainerObjectProps, CorrectedIncome } from '~/types/types'
 
 export async function loader({ request }: LoaderArgs) {
   const user = await isAuthenticated(request)
@@ -23,7 +23,7 @@ const expenses = await getCurrentExpenses(user.id)
 const limitedIncome = incomes.map((income) => {
   return {
     amount: income.amount,
-    category: income.categories.map((category) => category.title).toString(),
+    category: income.categories.map((category) => category.title).toString().slice(0,2)
   }
 })
 console.log(limitedIncome, 'limitedIncome');
@@ -32,12 +32,13 @@ console.log(limitedIncome, 'limitedIncome');
 const limitedExpenses = expenses.map((expense) => {
   return {
     amount: expense.amount,
-    category: expense.categories.map((category) => category.title).toString(),
+    category: expense.categories.map((category) => category.title).toString().slice(0,2)
 
   }
 })
 console.log(limitedExpenses, 'limitedExpenses');
 
+// Set up expenses and Icome by category and percentage for band chart
 
 const eByCandP = categoriesAndPercentage(limitedExpenses)
 console.log(eByCandP, 'eByCandP');
@@ -50,7 +51,7 @@ console.log(Array.isArray(eByCandP));
 }
 
 export default function Index() {
-  const data = useLoaderData<{ incomes: CorrectedIncome , expenses:CorrectedIncome, eByCandP: any, iByCandP:any}>()
+  const data = useLoaderData<{ incomes: CorrectedIncome , expenses:CorrectedIncome, eByCandP: BandContainerObjectProps[], iByCandP:BandContainerObjectProps[]}>()
 
   const iSubTotal = data.incomes.reduce(
     (acc: number, income: { amount: number }) => acc + income.amount,
@@ -60,7 +61,6 @@ export default function Index() {
     (acc: number, expense: { amount: number }) => acc + expense.amount,
     0
   )
-
 
   return (
     <div className='flex flex-col py-2 text-center'>
@@ -107,8 +107,9 @@ export default function Index() {
   <h3 className='text-2xl font-bold'>Expenses by Category and Percentage</h3>
 <BandContainer>
        {
-          data.iByCandP.map((item) => {
-            return <BandChart key={item.id} {...item}
+          data.iByCandP.map((item:BandContainerObjectProps) => {
+            return <BandChart key={item.category} {...item}
+            category={item.category}
               bgFill={item.fills} itemWidth={item.percentage}
             />
           })
