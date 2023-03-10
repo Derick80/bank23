@@ -51,32 +51,20 @@ export default function DataTable({ data, type }: DTPropsExpense) {
         <tbody>
           {data.map((item) => (
             <tr key={item.id}>
-              {edit ? (
+
                 <>
-                  <td className='border px-4 py-2'>
-                    <input
-                      type='text'
-                      name='source'
-                      id='source'
-                      defaultValue={item.source}
-                    />
-                  </td>
+                  <td className='border px-4 py-2 text-sm'>{item.source}</td>
                 </>
-              ) : (
-                <>
-                  <td className='border px-4 py-2'>{item.source}</td>
-                </>
-              )}
-              <td className='border px-4 py-2'>
+                           <td className='border px-4 py-2 text-sm'>
                 {item.categories.map((category, index) => (
                   <span key={index}>{category.title.split(',')}</span>
                 ))}
               </td>
-              <td className='border px-4 py-2'>
+              <td className='border px-4 py-2 text-sm'>
                 {format(new Date(item.dueDate), 'MMM yy')}
               </td>
-              <td className='border px-4 py-2'>{item.amount}</td>
-              <td className='border px-4 py-2'>
+              <td className='border px-4 py-2 text-sm'>{item.amount}</td>
+              <td className='border px-4 py-2 text-sm'>
                 {isIncome ? (
                   <NavLink to={`/incomes/${item.id}/edit`}>
                     <button
