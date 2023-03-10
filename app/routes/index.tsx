@@ -60,7 +60,7 @@ export default function Index() {
     (acc: number, expense: { amount: number }) => acc + expense.amount,
     0
   )
-
+const scale = ['red', 'green', 'blue']
 
   return (
     <div className='flex flex-col py-2 text-center'>
@@ -109,6 +109,7 @@ export default function Index() {
        {
           data.iByCandP.map((item) => {
             return <BandChart key={item.id} {...item}
+
               bgFill={item.fills} itemWidth={item.percentage}
             />
           })

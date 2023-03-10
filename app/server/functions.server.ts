@@ -18,12 +18,12 @@ export  function categoriesAndPercentage(
   array: {
     amount: number
     category: string
-  }[]
-): Promise<{ category: string; amount: number; percentage: number,
+  }[],
+): Array<{ category: string; amount: number; percentage: number,
   fills: string }
 >
  {
-  const expenseScale = chroma.scale(['yellow', 'red', 'black'])
+
 
   const data = array
     .reduce(
@@ -62,7 +62,7 @@ export  function categoriesAndPercentage(
 
     data.forEach((item, index) => {
       moreData.push({category: item.category, amount: item.amount, percentage: percentage[index],
-      fills: chroma.scale(['orange', 'yellow', 'blue']).colors(percentage.length)[index]
+      fills: chroma.scale(['orange','yellow','blue']).colors(percentage.length)[index]
 
     })
     }
