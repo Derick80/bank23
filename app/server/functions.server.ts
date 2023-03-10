@@ -52,7 +52,7 @@ export  function categoriesAndPercentage(
     const percentage = data.map((item) => {
       const percent = (item.amount / total) * 100
 
-      return Number(percent.toFixed(2))
+      return Number(percent.toFixed(0))
     }
     )
 

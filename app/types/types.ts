@@ -5,6 +5,7 @@ import type {
   IncomeCategory,
   User as PrismaUser
 } from '@prisma/client'
+import { SerializeFrom } from '@remix-run/node'
 
 export type AuthInput = {
   email: string
@@ -41,3 +42,10 @@ export type CommonEntries = {
   }
 }[]
 export type CorrectedIncome = SerializeFrom<CommonEntries>
+
+export type BandContainerObjectProps ={
+category: string
+amount: number
+percentage: number
+fills: string
+}
