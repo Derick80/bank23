@@ -40,7 +40,7 @@ export default function DataTable({ data, type }: DTPropsExpense) {
       <table className='table-auto'>
         <thead>
           <tr>
-            <th className='px-4 py-2'>Source</th>
+            <th className='px-4 py-2'>Item</th>
             <th className='px-4 py-2'>Category</th>
 
             <th className='px-4 py-2'>Due Date</th>
