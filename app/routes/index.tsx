@@ -5,8 +5,8 @@ import { NavLink, useLoaderData } from '@remix-run/react'
 import React from 'react'
 import { BandChart, BandContainer } from '~/compoonents/bandchart'
 import NewCard from '~/compoonents/create-card'
-import DataTable from '~/compoonents/display-data-table'
 import ItemCard from '~/compoonents/item-card'
+import NavBar from '~/compoonents/nav'
 import Tooltip from '~/compoonents/tooltip'
 import { isAuthenticated } from '~/server/auth/auth.server'
 import { getCurrentExpenses } from '~/server/expense.server'
@@ -27,25 +27,17 @@ export async function loader({ request }: LoaderArgs) {
   const limitedIncome = incomes.map((income) => {
     return {
       amount: income.amount,
-      category: income.categories
-        .map((category) => category.title)
-        .toString()
-
+      category: income.categories.map((category) => category.title).toString()
     }
   })
-  console.log(limitedIncome, 'limitedIncome')
 
   // reduce the categories to a string and then map over the expenses to return the new object
   const limitedExpenses = expenses.map((expense) => {
     return {
       amount: expense.amount,
-      category: expense.categories
-        .map((category) => category.title)
-        .toString()
-
+      category: expense.categories.map((category) => category.title).toString()
     }
   })
-  console.log(limitedExpenses, 'limitedExpenses')
 
   // Set up expenses and Icome by category and percentage for band chart
 
@@ -79,22 +71,23 @@ export default function Index() {
 
   return (
     <div className='flex flex-col py-2 text-center'>
+      <NavBar />
       {/* Container */}
       <div className='flex w-full grow flex-col justify-center gap-5 md:flex-row'>
         <div className='flex flex-col items-center border-2  py-2 text-center'>
           <h1 className='text-4xl font-bold'>Expenses</h1>
-
           <button
-          className='flex items-center gap-2'
-          onClick={() => setMakeNew(!makeNew)}> <Tooltip message='Create'>
-            <p>New</p>
-            <PlusCircledIcon />
-          </Tooltip>
-         </button>
-{makeNew && (
-            <NewCard type='expense' />
-
-)}          <div className='text-xl italic'>${eSubTotal}</div>
+            className='flex items-center gap-2'
+            onClick={() => setMakeNew(!makeNew)}
+          >
+            {' '}
+            <Tooltip message='Create'>
+              <p>New</p>
+              <PlusCircledIcon />
+            </Tooltip>
+          </button>
+          {makeNew && <NewCard type='expense' />}{' '}
+          <div className='text-xl italic'>${eSubTotal}</div>
           <ItemCard data={data.expenses} type='expense' />
           <div className='flex flex-col items-center   py-2 text-center'>
             <h3 className='text-2xl font-bold'>

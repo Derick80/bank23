@@ -1,4 +1,3 @@
-import { Income } from '~/types/types'
 import { dateRange } from './functions.server'
 import { prisma } from './prisma.server'
 

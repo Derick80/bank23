@@ -1,4 +1,5 @@
-import { ActionArgs, json } from '@remix-run/node'
+import type { ActionArgs} from '@remix-run/node';
+import { json } from '@remix-run/node'
 import { isAuthenticated } from '~/server/auth/auth.server'
 import { prisma } from '~/server/prisma.server'
 
