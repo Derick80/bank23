@@ -18,14 +18,13 @@ export function BandChart({ bgFill, itemWidth, category }: BandChartProps) {
         width: `${itemWidth}%`
       }}
     >
-      {/* only display if 10% or greater */}
 
-       <Tooltip message={category}>
-         <p className='space-between flex translate-y-4 text-[8px]'>
-          {category.slice(0,3)} {itemWidth}%{' '}
+
+      <Tooltip message={category}>
+        <p className='space-between flex translate-y-4 text-[8px]'>
+          {category.slice(0, 3)} {itemWidth}%{' '}
         </p>
-        </Tooltip>
-
+      </Tooltip>
     </span>
   )
 }

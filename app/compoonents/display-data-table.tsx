@@ -2,22 +2,9 @@ import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons'
 import { NavLink, useFetcher } from '@remix-run/react'
 import { format } from 'date-fns'
 import React from 'react'
-import type { Expense } from '~/types/types'
+import type { Expense, SharedExpenseIncomeProps } from '~/types/types'
 
-export type DTPropsExpense = {
-  data: {
-    id: number
-    source: string
-    amount: number
-    dueDate: string
-    categories: {
-      id: number
-      title: string
-    }[]
-  }[]
 
-  type: 'expense' | 'income'
-}
 
 export type DTPropsIncome = {
   data: Expense[]
@@ -27,10 +14,9 @@ export type DTPropsIncome = {
   }[]
   type: 'expense' | 'income'
 }
-export default function DataTable({ data, type }: DTPropsExpense) {
+export default function DataTable({ data, type }: SharedExpenseIncomeProps) {
   const [edit, setEdit] = React.useState(false)
   const deleteFetcher = useFetcher()
-  const detailsFetcher = useFetcher()
   // console.log(categories, 'category');
 
   const isIncome = type === 'income' ? true : false
@@ -102,9 +88,9 @@ export default function DataTable({ data, type }: DTPropsExpense) {
                     action={`/expenses/${item.id}/delete`}
                   >
                     <button
-                    onClick={() => console.log(`/expenses/${item.id}/delete`)
-                    }
-                    className='text-orange-500'>
+                      onClick={() => console.log(`/expenses/${item.id}/delete`)}
+                      className='text-orange-500'
+                    >
                       <TrashIcon />
                     </button>
                   </deleteFetcher.Form>

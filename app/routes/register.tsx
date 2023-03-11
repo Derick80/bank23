@@ -24,8 +24,11 @@ export default function Page() {
     <div>
       <AuthForm authType='register' />
       <SocialLoginForm>
-        <div className='mt-4'>
-          <Link to='/login'>Already have an Account?</Link>
+        <div className='mt-2 mb-2 flex flex-col items-center justify-center md:mt-5 md:mb-5'>
+          <h3
+            className='text-sm italic'
+          >OR</h3>
+          <Link to='/login'><p className='text-sm italic'>Already have an account?? Login!</p></Link>
         </div>
       </SocialLoginForm>
     </div>

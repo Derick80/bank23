@@ -49,3 +49,18 @@ export type BandContainerObjectProps = {
   percentage: number
   fills: string
 }
+
+export type SharedExpenseIncomeProps = {
+  data: {
+    id: number
+    source: string
+    amount: number
+    dueDate: string
+    categories: {
+      id: number
+      title: string
+    }[]
+  }[]
+
+  type: 'expense' | 'income'
+}
