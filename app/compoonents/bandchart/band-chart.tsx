@@ -12,14 +12,12 @@ export function BandChart({ bgFill, itemWidth, category }: BandChartProps) {
   return (
     <span
       key={category}
-      className='flex h-5 flex-row items-center justify-center font-semibold'
+      className='flex h-5 w-[340px] flex-row items-center justify-center font-semibold'
       style={{
         backgroundColor: `${bgFill}`,
         width: `${itemWidth}%`
       }}
     >
-
-
       <Tooltip message={category}>
         <p className='space-between flex translate-y-4 text-[8px]'>
           {category.slice(0, 3)} {itemWidth}%{' '}

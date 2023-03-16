@@ -22,7 +22,8 @@ export async function getCurrentExpenses(userId: number) {
       source: exp.source,
       amount: exp.amount,
       dueDate: exp.dueDate,
-      categories: exp.expenseCategory
+      categories: exp.expenseCategory,
+      userId: exp.userId
     }
   })
   return expenses.flat()

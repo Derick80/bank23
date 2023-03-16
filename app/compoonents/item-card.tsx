@@ -1,12 +1,28 @@
 import type { IncomeCategory, ExpenseCategory } from '@prisma/client'
 import { PaperPlaneIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
-import { useFetcher, useRouteLoaderData } from '@remix-run/react'
+import { NavLink, useFetcher, useRouteLoaderData } from '@remix-run/react'
 import { format } from 'date-fns'
 import React from 'react'
-import type { SharedExpenseIncomeProps } from '~/types/types'
+import type {
+  Categories,
+  Expense,
+  Income,
+  IncomeOrExpense
+} from '~/types/types'
 
+export type ItemCardProps = {
+  data: IncomeOrExpense[]
+}
 
-export default function ItemCard({ data, type }: SharedExpenseIncomeProps) {
+export type ItemCardOtherProps = {
+  type: 'income' | 'expense'
+}
+export default function ItemCard({
+  data,
+  type
+}: ItemCardProps & ItemCardOtherProps) {
+  console.log(type, 'type')
+
   // get data from the root loader
   const { iCategories, eCategories } = useRouteLoaderData('root') as {
     iCategories: IncomeCategory[]
@@ -25,13 +41,17 @@ export default function ItemCard({ data, type }: SharedExpenseIncomeProps) {
   // set up the fetchers
   const deleteFetcher = useFetcher()
   const editFetcher = useFetcher()
-
+  console.log(Array.isArray(data), 'itemcard')
+  const categories = data.map((item) =>
+    item.categories.map((category: Categories) => category.title).toString()
+  )
+  console.log(categories, 'categories')
   return (
-    <div className='flex w-full flex-col gap-2'>
+    <div className='flex w-full flex-col items-center gap-2'>
       {data.map((item) => (
         <div
           key={item.id}
-          className='flex w-full flex-col items-center justify-center rounded-lg border-2 pb-2 shadow-lg'
+          className='flex w-[350px] flex-col items-center justify-center rounded-lg border-2 pb-2 shadow-lg '
         >
           {edit ? (
             <>
@@ -39,7 +59,7 @@ export default function ItemCard({ data, type }: SharedExpenseIncomeProps) {
               <editFetcher.Form
                 method='post'
                 action={`${path}/${item.id}/edit`}
-                className='text-black'
+                className='flex w-[340px] flex-col items-center justify-center text-black'
               >
                 <div className='flex w-full justify-between gap-2 p-2'>
                   <div className='flex flex-col'>
@@ -53,7 +73,7 @@ export default function ItemCard({ data, type }: SharedExpenseIncomeProps) {
                       type='text'
                       name='source'
                       defaultValue={item.source}
-                      className='rounded-md border-2 border-gray-300 p-1'
+                      className='w-fit rounded-md border-2 border-gray-300 p-1'
                     />
                   </div>
                   <div className='flex flex-col'>
@@ -67,7 +87,7 @@ export default function ItemCard({ data, type }: SharedExpenseIncomeProps) {
                       type='number'
                       name='amount'
                       defaultValue={item.amount}
-                      className='rounded-md border-2 border-gray-300 p-1'
+                      className='w-full rounded-md border-2 border-gray-300 p-1'
                     />
                   </div>
                 </div>
@@ -108,7 +128,7 @@ export default function ItemCard({ data, type }: SharedExpenseIncomeProps) {
                             <option
                               key={category.id}
                               selected={
-                                category.title === item.categories[0].title
+                                item.categories[0].title === category.title
                               }
                             >
                               {category.title}
@@ -156,9 +176,13 @@ export default function ItemCard({ data, type }: SharedExpenseIncomeProps) {
                   Due...{format(new Date(item.dueDate), 'MMM yy')}
                 </p>
                 {item.categories.map((category, index) => (
-                  <p className='text-xs italic ' key={index}>
+                  <NavLink
+                    to={`${path}/categories/${category.id}`}
+                    className='text-xs italic '
+                    key={index}
+                  >
                     {category.title.split(',')}
-                  </p>
+                  </NavLink>
                 ))}
                 <div className='flex items-center gap-2'>
                   <button

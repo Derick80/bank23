@@ -1,5 +1,5 @@
 import { Authenticator } from 'remix-auth'
-import { GoogleStrategy } from "remix-auth-google";
+import { GoogleStrategy } from 'remix-auth-google'
 import { createUser } from '~/server/user.server'
 import { authenticator } from '../auth.server'
 import { sessionStorage } from '../session.server'
@@ -19,9 +19,9 @@ export const googleStrategy = new GoogleStrategy(
   {
     clientID: clientId,
     clientSecret: clientSecret,
-    callbackURL: googleCallbackUrl,
+    callbackURL: googleCallbackUrl
   },
-  async ({accessToken, refreshToken, extraParams, profile}) => {
+  async ({ accessToken, refreshToken, extraParams, profile }) => {
     const account = await getAccount({
       provider: profile.provider,
       providerAccountId: profile.id
@@ -46,5 +46,4 @@ export const googleStrategy = new GoogleStrategy(
 
     return user.id
   }
-);
-
+)

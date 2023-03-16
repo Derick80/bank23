@@ -27,7 +27,6 @@ export const AuthForm = ({ authType }: Props) => {
       method='post'
       action={url}
     >
-
       <input type='hidden' name='token' value={token || ''} />
 
       <>
@@ -51,19 +50,17 @@ export const AuthForm = ({ authType }: Props) => {
         />
       </>
 
-
-        <>
-          <label>Password</label>
-          <input
-            className='rounded-xl p-2 text-black shadow-md'
-            id='password'
-            name='password'
-            type='password'
-            autoComplete='current-password'
-            placeholder='********'
-          />
-        </>
-
+      <>
+        <label>Password</label>
+        <input
+          className='rounded-xl p-2 text-black shadow-md'
+          id='password'
+          name='password'
+          type='password'
+          autoComplete='current-password'
+          placeholder='********'
+        />
+      </>
 
       <button className='mt-5' type='submit'>
         {button}
