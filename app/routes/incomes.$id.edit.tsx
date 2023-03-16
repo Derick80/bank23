@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import invariant from 'tiny-invariant'
 import { isAuthenticated } from '~/server/auth/auth.server'
 import { prisma } from '~/server/prisma.server'
-import type { Income } from '~/types/types'
+import type { Categories, Income } from '~/types/types'
 
 export async function loader({ request, params }: LoaderArgs) {
   const { id } = params
@@ -19,7 +19,7 @@ export async function loader({ request, params }: LoaderArgs) {
       id: Number(id)
     },
     include: {
-      incomeCategory: true
+      categories: true
     }
   })
   if (!income) {
@@ -59,10 +59,12 @@ export async function action({ request, params }: ActionArgs) {
       source,
       amount,
       dueDate: new Date(dueDate),
-      incomeCategory: {
-        set: {
-          title
-        }
+      categories: {
+              set: {
+          title,
+
+        },
+
       }
     }
   })
@@ -73,13 +75,14 @@ export default function EditRoute() {
   const { income } = useLoaderData<{ income: Income }>()
 
   const routeData = useRouteLoaderData('root') as {
-    iCategories: IncomeCategory[]
-    eCategories: ExpenseCategory[]
+   categories:Categories[]
     user: { id: number; email: string }
   }
 
-  const iCategories = routeData.iCategories as IncomeCategory[]
-  const [defaultOption] = income.incomeCategory.map(
+  const iCategories = routeData.categories.filter(
+    (category) => category.type === 'income'
+  ) as IncomeCategory[]
+  const [defaultOption] = income.categories.map(
     (category: { id: number; title: string }) => category.title
   )
   console.log(defaultOption, 'defaultOption')
@@ -115,7 +118,7 @@ export default function EditRoute() {
           id='dueDate'
           defaultValue={format(new Date(income.dueDate), 'yyyy-MM-dd')}
         />
-        {income.incomeCategory && (
+        {income.categories && (
           <select
             name='category'
             id='category'

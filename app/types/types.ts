@@ -1,8 +1,7 @@
 import type {
   Expense as PrismaExpense,
   Income as PrismaIncome,
-  ExpenseCategory,
-  IncomeCategory,
+
   User as PrismaUser
 } from '@prisma/client'
 import type { SerializeFrom } from '@remix-run/node'
@@ -19,16 +18,19 @@ export type UserType = User & {
   incomes: Income[]
 }
 
-export type Expense = PrismaExpense & {
+export type Expenses = PrismaExpense & {
   user: User
-  categories: ExpenseCategory[]
+  categories: Categories[]
 }
 
-export type Income = PrismaIncome & {
+export type Expense= SerializeFrom<Expenses>
+
+export type Incomes = PrismaIncome & {
   user: User
-  categories: IncomeCategory[]
+  categories: Categories[]
 }
 
+export type Income = SerializeFrom<Incomes>
 export type CommonEntries = {
   data: {
     id: number
@@ -53,11 +55,7 @@ export type BandContainerObjectProps = {
 export type Categories = {
   id: number
   title: string
+  type: string
 }
-export type IncomeOrExpense = {
-  id: number
-  source: string
-  amount: number
-  dueDate: string
-  categories: Categories[]
-}
+
+

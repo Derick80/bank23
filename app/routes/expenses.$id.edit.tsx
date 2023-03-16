@@ -66,7 +66,7 @@ export async function action({ request, params }: ActionArgs) {
       source,
       amount,
       dueDate: new Date(dueDate),
-      expenseCategory: {
+      categories: {
         set: {
           title
         }
@@ -80,14 +80,15 @@ export default function EditRoute() {
   const { expense } = useLoaderData<{ expense: Expense }>()
   const navigate = useNavigation()
   const routeData = useRouteLoaderData('root') as {
-    iCategories: IncomeCategory[]
-    eCategories: ExpenseCategory[]
+   categories: { id: number; title: string; type: 'income' | 'expense' }[]
     user: { id: number; email: string }
   }
 
-  const eCategories = routeData.eCategories
+  const eCategories = routeData.categories.filter(
+    (category) => category.type === 'expense'
+  )
 
-  const [defaultOption] = expense.expenseCategory.map(
+  const [defaultOption] = expense.categories.map(
     (category: { id: number; title: string }) => category.title
   )
   console.log(defaultOption, 'defaultOption')
@@ -123,7 +124,7 @@ export default function EditRoute() {
           id='dueDate'
           defaultValue={format(new Date(expense.dueDate), 'yyyy-MM-dd')}
         />
-        {expense.expenseCategory && (
+        {expense.categories && (
           <select
             name='category'
             id='category'

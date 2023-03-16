@@ -6,13 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 
 model User {
-  id       Int      @id @unique @default(sequence())
+  id       Int      @id @unique @default(autoincrement())
   email    String   @unique
   password String?
   username String   @unique
@@ -26,7 +26,7 @@ model User {
 }
 
 model Extendprofile {
-  id Int @id @unique @default(sequence())
+  id Int @id @unique @default(autoincrement())
   avatarUrl String?
   user User @relation(fields: [userId], references: [id])
   userId Int @unique
@@ -35,44 +35,39 @@ model Extendprofile {
 }
 
 model Income {
-  id Int @id @unique @default(sequence())
+  id Int @id @unique @default(autoincrement())
   source String
   dueDate DateTime
   amount Float
   user User @relation(fields: [userId], references: [id])
   userId Int
-  incomeCategory IncomeCategory[]
+  categories  Category[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 
-model IncomeCategory {
-  id Int @id @unique @default(sequence())
-  title String @unique
-  incomes Income[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
 
-}
 
 
 model Expense {
-  id Int @id @unique @default(sequence())
+  id Int @id @unique @default(autoincrement())
   source String
   dueDate DateTime
   amount Float
   user User @relation(fields: [userId], references: [id])
   userId Int
-  expenseCategory ExpenseCategory[]
+categories  Category[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
-model ExpenseCategory {
-  id Int @id @unique @default(sequence())
+model Category {
+  id Int @id @unique @default(autoincrement())
   title String @unique
+  type String
   expenses Expense[]
+  incomes Income[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 

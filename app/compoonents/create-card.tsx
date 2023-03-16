@@ -1,14 +1,14 @@
-import type { IncomeCategory, ExpenseCategory } from '@prisma/client'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { useFetcher, useRouteLoaderData } from '@remix-run/react'
 import CategoryCreator from './category-creater'
 
 export default function NewCard({ type }: { type: 'income' | 'expense' }) {
-  const { iCategories, eCategories } = useRouteLoaderData('root') as {
-    iCategories: IncomeCategory[]
-    eCategories: ExpenseCategory[]
+  const { eCategories,iCategories } = useRouteLoaderData('root') as {
+    eCategories: { id: number; title: string; type: string }[]
+    iCategories: { id: number; title: string; type: string }[]
     user: { id: number; email: string }
   }
+
   const newFetcher = useFetcher()
 
   return (

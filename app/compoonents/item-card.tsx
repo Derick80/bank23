@@ -1,18 +1,21 @@
 import type { IncomeCategory, ExpenseCategory } from '@prisma/client'
 import { PaperPlaneIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
-import { NavLink, useFetcher, useRouteLoaderData } from '@remix-run/react'
+import { SerializeFrom } from '@remix-run/node'
+import { NavLink, Outlet, useFetcher, useRouteLoaderData } from '@remix-run/react'
 import { format } from 'date-fns'
+import dayjs from 'dayjs'
 import React from 'react'
 import type {
   Categories,
   Expense,
   Income,
-  IncomeOrExpense
+
 } from '~/types/types'
 
-export type ItemCardProps = {
-  data: IncomeOrExpense[]
-}
+export type ItemCardProps =
+{
+  data: Income | Expense
+}[]
 
 export type ItemCardOtherProps = {
   type: 'income' | 'expense'
@@ -24,14 +27,12 @@ export default function ItemCard({
   console.log(type, 'type')
 
   // get data from the root loader
-  const { iCategories, eCategories } = useRouteLoaderData('root') as {
-    iCategories: IncomeCategory[]
-    eCategories: ExpenseCategory[]
-    user: { id: number; email: string }
+  const {iCategories,eCategories } = useRouteLoaderData('root') as {
+   iCategories: Categories[]
+   eCategories: Categories[]
   }
-
+const selected = eCategories.filter((category) => category.type === type)
   // determine the type of category to use
-  const selected = type === 'expense' ? eCategories : iCategories
 
   // use the type to determine the path or what route to submit data to
   const path = type === 'expense' ? '/expenses' : '/incomes'
@@ -41,18 +42,18 @@ export default function ItemCard({
   // set up the fetchers
   const deleteFetcher = useFetcher()
   const editFetcher = useFetcher()
-  console.log(Array.isArray(data), 'itemcard')
-  const categories = data.map((item) =>
-    item.categories.map((category: Categories) => category.title).toString()
-  )
-  console.log(categories, 'categories')
+
   return (
     <div className='flex w-full flex-col items-center gap-2'>
       {data.map((item) => (
-        <div
+        <>
+         <Outlet />
+
+            <div
           key={item.id}
           className='flex w-[350px] flex-col items-center justify-center rounded-lg border-2 pb-2 shadow-lg '
         >
+
           {edit ? (
             <>
               {' '}
@@ -139,7 +140,9 @@ export default function ItemCard({
                     </div>
                   )}
                 </div>
-                <button className='text-orange-500'>
+                <button className='text-orange-500'
+
+                >
                   <PaperPlaneIcon />
                 </button>
               </editFetcher.Form>
@@ -173,7 +176,9 @@ export default function ItemCard({
               <div className='flex items-center gap-1'></div>
               <div className='flex items-center justify-between gap-1  '>
                 <p className='text-xs italic'>
-                  Due...{format(new Date(item.dueDate), 'MMM yy')}
+                 {dayjs(item.dueDate, 'YYYY-MM-DD').format('MMM D, YYYY')}
+
+
                 </p>
                 {item.categories.map((category, index) => (
                   <NavLink
@@ -207,7 +212,9 @@ export default function ItemCard({
             </div>
           )}
         </div>
+        </>
       ))}
     </div>
+
   )
 }

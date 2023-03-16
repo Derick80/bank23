@@ -1,4 +1,3 @@
-import type { ExpenseCategory, IncomeCategory } from '@prisma/client'
 import type { ActionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form } from '@remix-run/react'
@@ -7,6 +6,7 @@ import { redirect, useRouteLoaderData } from 'react-router'
 import CategoryCreator from '~/compoonents/category-creater'
 import { isAuthenticated } from '~/server/auth/auth.server'
 import { prisma } from '~/server/prisma.server'
+import { Categories, Expense } from '~/types/types'
 
 export async function action({ request }: ActionArgs) {
   const user = await isAuthenticated(request)
@@ -37,10 +37,11 @@ export async function action({ request }: ActionArgs) {
           amount,
           dueDate: new Date(dueDate),
           userId: user.id,
-          expenseCategory: {
+          categories: {
             connect: {
-              title
-            }
+              title,
+
+            },
           }
         }
       })
@@ -52,7 +53,7 @@ export async function action({ request }: ActionArgs) {
           amount,
           dueDate: new Date(dueDate),
           userId: user.id,
-          incomeCategory: {
+          categories: {
             connect: {
               title
             }
@@ -67,12 +68,12 @@ export async function action({ request }: ActionArgs) {
 
 export default function NewRoute() {
   const routeData = useRouteLoaderData('root') as {
-    iCategories: IncomeCategory[]
-    eCategories: ExpenseCategory[]
+    iCategories: Categories[]
+    eCategories: Categories[]
     user: { id: number; email: string }
   }
-  const eCategories = routeData.eCategories as ExpenseCategory[]
-  const iCategories = routeData.iCategories as IncomeCategory[]
+  const eCategories = routeData.eCategories as Categories[]
+  const iCategories = routeData.iCategories as Categories[]
 
   const [type, setType] = useState('')
 

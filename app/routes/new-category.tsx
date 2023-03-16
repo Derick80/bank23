@@ -17,16 +17,18 @@ export async function action({ request }: ActionArgs) {
 
   switch (type) {
     case 'expense':
-      const expenses = await prisma.expenseCategory.create({
+      const expenses = await prisma.category.create({
         data: {
-          title
+          title,
+          type: 'expense'
         }
       })
       return json({ expenses })
     case 'income':
-      const incomes = await prisma.incomeCategory.create({
+      const incomes = await prisma.category.create({
         data: {
-          title
+          title,
+          type: 'income'
         }
       })
       return json({ incomes })

@@ -11,14 +11,14 @@ export async function loader({ request, params }: LoaderArgs) {
 
   const expenses = await prisma.expense.findMany({
     where: {
-      expenseCategory: {
+      categories: {
         some: {
           id: categoryId
         }
       }
     },
     include: {
-      expenseCategory: true
+      categories: true
     }
   })
 
@@ -28,7 +28,7 @@ export async function loader({ request, params }: LoaderArgs) {
       source: expense.source,
       amount: expense.amount,
       dueDate: expense.dueDate,
-      categories: expense.expenseCategory.map((category) => {
+      categories: expense.categories.map((category) => {
         return {
           id: category.id,
           title: category.title

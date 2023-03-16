@@ -22,19 +22,11 @@ export const meta: MetaFunction = () => ({
 })
 export async function loader({ request }: LoaderArgs) {
   const user = await isAuthenticated(request)
-  const eCategories = await prisma.expenseCategory.findMany({
-    select: {
-      id: true,
-      title: true
-    }
-  })
-  const iCategories = await prisma.incomeCategory.findMany({
-    select: {
-      id: true,
-      title: true
-    }
-  })
-  return json({ user, eCategories, iCategories })
+  const categories = await prisma.category.findMany()
+const iCategories = categories.filter((category) => category.type === 'income')
+const eCategories = categories.filter((category) => category.type === 'expense')
+
+  return json({ user,iCategories,eCategories })
 }
 export default function App() {
   return (

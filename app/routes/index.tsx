@@ -121,7 +121,7 @@ export default function Index() {
             <h3 className='text-2xl font-bold'>
               Expenses by Category and Percentage
             </h3>
-            <BandContainer>
+            {/* <BandContainer>
               {data.iByCandP.map((item: BandContainerObjectProps) => {
                 return (
                   <BandChart
@@ -133,7 +133,7 @@ export default function Index() {
                   />
                 )
               })}
-            </BandContainer>
+            </BandContainer> */}
           </div>
         </div>
       </div>

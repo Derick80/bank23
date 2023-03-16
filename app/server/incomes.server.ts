@@ -4,7 +4,7 @@ import { prisma } from './prisma.server'
 export async function getCurrentIncomes(userId: number) {
   const { now, then } = dateRange()
 
-  const income = await prisma.income.findMany({
+  const incomes = await prisma.income.findMany({
     where: {
       userId: userId,
       dueDate: {
@@ -13,17 +13,8 @@ export async function getCurrentIncomes(userId: number) {
       }
     },
     include: {
-      incomeCategory: true
+      categories: true
     }
   })
-  const incomes = income.map((inc) => {
-    return {
-      id: inc.id,
-      source: inc.source,
-      amount: inc.amount,
-      dueDate: inc.dueDate,
-      categories: inc.incomeCategory
-    }
-  })
-  return incomes.flat()
+  return incomes
 }

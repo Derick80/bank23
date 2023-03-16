@@ -15,7 +15,7 @@ export async function loader({ request }: LoaderArgs) {
       id: user.id
     },
     include: {
-      expenseCategory: true
+      categories: true
     }
   })
 
