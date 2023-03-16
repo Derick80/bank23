@@ -26,7 +26,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
           Source
         </label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border shadow-sm text-black'
           type='text'
           name='source'
         />
@@ -37,7 +37,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
           Amount
         </label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border shadow-sm text-black'
           type='number'
           name='amount'
         />
@@ -48,7 +48,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
           Due Date
         </label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border shadow-sm text-black'
           type='date'
           name='dueDate'
         />
@@ -66,7 +66,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
             Expense
           </label>
           <input
-            className='rounded-md border shadow-sm'
+            className='rounded-md border shadow-sm text-black'
             type='radio'
             name='type'
             value='expense'
@@ -78,7 +78,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
             Income
           </label>
           <input
-            className='rounded-md border shadow-sm'
+            className='rounded-md border shadow-sm text-black'
             type='radio'
             name='type'
             value='income'
@@ -86,7 +86,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
         </div>
 
         <select
-          className='rounded-md border shadow-sm'
+          className='rounded-md border shadow-sm text-black'
           name='category'
           id='category'
         >

@@ -1,6 +1,4 @@
-import type { IncomeCategory, ExpenseCategory } from '@prisma/client'
 import { PaperPlaneIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
-import { SerializeFrom } from '@remix-run/node'
 import { NavLink, Outlet, useFetcher, useRouteLoaderData } from '@remix-run/react'
 import { format } from 'date-fns'
 import dayjs from 'dayjs'
@@ -12,18 +10,19 @@ import type {
 
 } from '~/types/types'
 
-export type ItemCardProps =
-{
-  data: Income | Expense
-}[]
+export type ItemCardProps =  {
+  data: Expense[] | Income[]
+  type: 'income' | 'expense'
+}
+
+
 
 export type ItemCardOtherProps = {
   type: 'income' | 'expense'
 }
-export default function ItemCard({
-  data,
-  type
-}: ItemCardProps & ItemCardOtherProps) {
+export default function ItemCard(
+  { data,type }: ItemCardProps,
+) {
   console.log(type, 'type')
 
   // get data from the root loader
@@ -176,7 +175,7 @@ const selected = eCategories.filter((category) => category.type === type)
               <div className='flex items-center gap-1'></div>
               <div className='flex items-center justify-between gap-1  '>
                 <p className='text-xs italic'>
-                 {dayjs(item.dueDate, 'YYYY-MM-DD').format('MMM D, YYYY')}
+                 {dayjs(item.dueDate, 'YYYY-MM-DD').format('MMM D')}
 
 
                 </p>

@@ -11,7 +11,7 @@ import { isAuthenticated } from '~/server/auth/auth.server'
 import { getCurrentExpenses } from '~/server/expense.server'
 import { categoriesAndPercentage } from '~/server/functions.server'
 import { getCurrentIncomes } from '~/server/incomes.server'
-import type { BandContainerObjectProps, CorrectedIncome } from '~/types/types'
+import type { BandContainerObjectProps, CorrectedIncome, Expense, Income } from '~/types/types'
 
 export async function loader({ request }: LoaderArgs) {
   const user = await isAuthenticated(request)
@@ -48,8 +48,8 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Index() {
   const data = useLoaderData<{
-    incomes: CorrectedIncome
-    expenses: CorrectedIncome
+    incomes: Expense[]
+    expenses: Income[]
     eByCandP: BandContainerObjectProps[]
     iByCandP: BandContainerObjectProps[]
   }>()
@@ -121,7 +121,7 @@ export default function Index() {
             <h3 className='text-2xl font-bold'>
               Expenses by Category and Percentage
             </h3>
-            {/* <BandContainer>
+            <BandContainer>
               {data.iByCandP.map((item: BandContainerObjectProps) => {
                 return (
                   <BandChart
@@ -133,7 +133,7 @@ export default function Index() {
                   />
                 )
               })}
-            </BandContainer> */}
+            </BandContainer>
           </div>
         </div>
       </div>
