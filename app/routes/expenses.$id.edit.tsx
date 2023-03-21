@@ -1,5 +1,7 @@
 import type { IncomeCategory, ExpenseCategory } from '@prisma/client'
-import type { ActionArgs, LoaderArgs } from '@remix-run/node'
+import { useDisclosure } from '@mantine/hooks'
+import { Modal, Button, Group } from '@mantine/core'
+import { ActionArgs, LoaderArgs, redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import {
   useLoaderData,
@@ -11,7 +13,7 @@ import { format } from 'date-fns'
 import invariant from 'tiny-invariant'
 import { isAuthenticated } from '~/server/auth/auth.server'
 import { prisma } from '~/server/prisma.server'
-import type { Expense } from '~/types/types'
+import type { Categories, Expense } from '~/types/types'
 
 export async function loader({ request, params }: LoaderArgs) {
   const { id } = params
@@ -24,7 +26,7 @@ export async function loader({ request, params }: LoaderArgs) {
       id: Number(id)
     },
     include: {
-      expenseCategory: true
+      categories: true
     }
   })
   if (!expense) {
@@ -58,7 +60,7 @@ export async function action({ request, params }: ActionArgs) {
     return json({ error: 'Invalid form data' })
   }
 
-  const expense = await prisma.expense.update({
+  await prisma.expense.update({
     where: {
       id
     },
@@ -73,20 +75,18 @@ export async function action({ request, params }: ActionArgs) {
       }
     }
   })
-  return json({ expense })
+  return redirect('/')
 }
 
 export default function EditRoute() {
+  const [opened, { open, close }] = useDisclosure(false)
+
   const { expense } = useLoaderData<{ expense: Expense }>()
   const navigate = useNavigation()
-  const routeData = useRouteLoaderData('root') as {
-   categories: { id: number; title: string; type: 'income' | 'expense' }[]
+  const { eCategories } = useRouteLoaderData('root') as {
+    eCategories: Categories[]
     user: { id: number; email: string }
   }
-
-  const eCategories = routeData.categories.filter(
-    (category) => category.type === 'expense'
-  )
 
   const [defaultOption] = expense.categories.map(
     (category: { id: number; title: string }) => category.title
@@ -148,8 +148,6 @@ export default function EditRoute() {
           <p>{navigate.state === 'submitting' ? 'Saving...' : 'Save'}</p>
         </button>
       </Form>
-
-      <pre className='text-xs'>{JSON.stringify(expense, null, 2)}</pre>
     </div>
   )
 }

@@ -14,17 +14,11 @@ export async function getCurrentExpenses(userId: number) {
     },
     include: {
       categories: true
+    },
+    orderBy: {
+      dueDate: 'asc'
     }
   })
-  // const expenses = expense.map((exp) => {
-  //   return {
-  //     id: exp.id,
-  //     source: exp.source,
-  //     amount: exp.amount,
-  //     dueDate: exp.dueDate,
-  //     categories: exp.expenseCategory,
-  //     userId: exp.userId
-  //   }
-  // })
+
   return expenses
 }

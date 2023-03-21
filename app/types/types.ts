@@ -1,7 +1,6 @@
 import type {
   Expense as PrismaExpense,
   Income as PrismaIncome,
-
   User as PrismaUser
 } from '@prisma/client'
 import type { SerializeFrom } from '@remix-run/node'
@@ -23,7 +22,7 @@ export type Expenses = PrismaExpense & {
   categories: Categories[]
 }
 
-export type Expense= SerializeFrom<Expenses>
+export type Expense = SerializeFrom<Expenses>
 
 export type Incomes = PrismaIncome & {
   user: User
@@ -57,5 +56,3 @@ export type Categories = {
   title: string
   type: string
 }
-
-

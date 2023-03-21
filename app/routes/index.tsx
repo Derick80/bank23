@@ -1,7 +1,7 @@
 import { MinusCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import type { LoaderArgs } from '@remix-run/node'
 import { json, redirect } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { NavLink, useLoaderData } from '@remix-run/react'
 import React from 'react'
 import { BandChart, BandContainer } from '~/compoonents/bandchart'
 import NewCard from '~/compoonents/create-card'
@@ -11,7 +11,12 @@ import { isAuthenticated } from '~/server/auth/auth.server'
 import { getCurrentExpenses } from '~/server/expense.server'
 import { categoriesAndPercentage } from '~/server/functions.server'
 import { getCurrentIncomes } from '~/server/incomes.server'
-import type { BandContainerObjectProps, CorrectedIncome, Expense, Income } from '~/types/types'
+import type {
+  BandContainerObjectProps,
+  CorrectedIncome,
+  Expense,
+  Income
+} from '~/types/types'
 
 export async function loader({ request }: LoaderArgs) {
   const user = await isAuthenticated(request)
@@ -65,26 +70,37 @@ export default function Index() {
     0
   )
 
+  const difference = iSubTotal - eSubTotal
+  console.log(difference, 'difference')
+
   return (
     <div className='flex flex-col py-2 text-center'>
+      <Summary
+        iSubTotal={iSubTotal}
+        eSubTotal={eSubTotal}
+        difference={difference}
+      />
+
       {/* Container */}
       <div className='flex w-full grow flex-col justify-center gap-5 md:flex-row'>
         <div className='flex flex-col items-center border-2  py-2 text-center'>
           <h1 className='text-4xl font-bold'>Expenses</h1>
-          <button
-            className='flex items-center gap-2'
-            onClick={() => setMakeNew(!makeNew)}
-          >
-            <Tooltip message='Create'>
-              <p>New</p>
-              <PlusCircledIcon />
-            </Tooltip>
-          </button>
+          <NavLink to='/new' className='flex items-center gap-2'>
+            <button
+              className='flex items-center gap-2'
+              onClick={() => setMakeNew(!makeNew)}
+            >
+              <Tooltip message='Create'>
+                <div className='flex items-center gap-2'>
+                  <p>New</p>
+                  <PlusCircledIcon />
+                </div>
+              </Tooltip>
+            </button>
+          </NavLink>
           {makeNew && <NewCard type={'expense'} />}
-          <div className='text-xl italic'>${eSubTotal}</div>
-          <ItemCard data={data.expenses} type='expense' />
           <div className='flex flex-col items-center   py-2 text-center'>
-            <h3 className='text-2xl font-bold'>
+            <h3 className='mb-4 text-xl font-bold'>
               Expenses by Category and Percentage
             </h3>
             <BandContainer>
@@ -100,25 +116,28 @@ export default function Index() {
               })}
             </BandContainer>
           </div>
+          <ItemCard data={data.expenses} type='expense' />
         </div>
 
         {/* incomes */}
         <div className='flex flex-col items-center border-2  py-2 text-center'>
           <h1 className='text-4xl font-bold'>Incomes</h1>
-          <button
-            className='flex items-center gap-2'
-            onClick={() => setMakeNewIncome(!makeNewIncome)}
-          >
-            <Tooltip message='Create'>
-              <p>New</p>
-              <PlusCircledIcon />
-            </Tooltip>
-          </button>
+          <NavLink to='/new' className='flex items-center gap-2'>
+            <button
+              className='flex items-center gap-2'
+              onClick={() => setMakeNewIncome(!makeNewIncome)}
+            >
+              <Tooltip message='Create'>
+                <div className='flex items-center gap-2'>
+                  <p>New</p>
+                  <PlusCircledIcon />
+                </div>
+              </Tooltip>
+            </button>
+          </NavLink>
           {makeNewIncome && <NewCard type='income' />}
-          <div className='text-xl italic'>${iSubTotal}</div>
-          <ItemCard data={data.incomes} type='income' />
           <div className='flex flex-col items-center   py-2 text-center'>
-            <h3 className='text-2xl font-bold'>
+            <h3 className='mb-5 text-2xl font-bold'>
               Expenses by Category and Percentage
             </h3>
             <BandContainer>
@@ -135,23 +154,43 @@ export default function Index() {
               })}
             </BandContainer>
           </div>
+          <ItemCard data={data.incomes} type='income' />
         </div>
       </div>
-
-      <details>
-        <summary>Expenses</summary>
-        <MinusCircledIcon />
-
-        <pre>{JSON.stringify(data.expenses, null, 2)}</pre>
-      </details>
-      <hr />
-      <details>
-        <summary>Incomes</summary>
-        <div>
-          <PlusCircledIcon />
-        </div>
-        <pre>{JSON.stringify(data.incomes, null, 2)}</pre>
-      </details>
     </div>
+  )
+}
+
+function Summary({
+  eSubTotal,
+  iSubTotal,
+  difference
+}: {
+  eSubTotal: number
+  iSubTotal: number
+  difference: number
+}) {
+  return (
+    <>
+      <h1 className='text-4xl font-bold'>Income Breakdown</h1>
+      <div className='flex flex-col items-center border-2  py-2 text-center'>
+        <div className='flex items-center gap-2'>
+          <h1 className='text-2xl font-bold'>Expenses</h1>
+          {eSubTotal}
+          <h1 className='text-2xl font-bold'>Incomes</h1>
+          <p className='text-xs'>${iSubTotal}</p>
+        </div>
+
+        {eSubTotal > iSubTotal ? (
+          <h1 className='text-4xl font-bold'>
+            You are over budget by ${difference}
+          </h1>
+        ) : (
+          <h1 className='text-4xl font-bold'>
+            You are under budget by ${difference}
+          </h1>
+        )}
+      </div>
+    </>
   )
 }

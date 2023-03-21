@@ -62,7 +62,7 @@ export function categoriesAndPercentage(
       amount: item.amount,
       percentage: percentage[index],
       fills: chroma
-        .scale(['orange', 'yellow', 'blue'])
+        .scale(['orange', 'yellow', 'lightblue'])
         .colors(percentage.length)[index]
     })
   })

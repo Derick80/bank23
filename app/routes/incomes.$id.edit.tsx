@@ -1,27 +1,20 @@
-import type { IncomeCategory, ExpenseCategory } from '@prisma/client'
-import type { ActionArgs, LoaderArgs } from '@remix-run/node'
+import { ActionArgs, LoaderArgs, redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form, useLoaderData, useRouteLoaderData } from '@remix-run/react'
 import { format } from 'date-fns'
 import invariant from 'tiny-invariant'
 import { isAuthenticated } from '~/server/auth/auth.server'
+import { getIncomeById } from '~/server/incomes.server'
 import { prisma } from '~/server/prisma.server'
-import type { Categories, Income } from '~/types/types'
+import type { Categories, Income, Incomes } from '~/types/types'
 
 export async function loader({ request, params }: LoaderArgs) {
   const { id } = params
   if (!id) {
     return json({ error: 'No id provided' })
   }
-
-  const income = await prisma.income.findUnique({
-    where: {
-      id: Number(id)
-    },
-    include: {
-      categories: true
-    }
-  })
+  const incomesId = Number(id)
+  const income = await getIncomeById(incomesId)
   if (!income) {
     return json({ error: 'No income found' })
   }
@@ -51,7 +44,7 @@ export async function action({ request, params }: ActionArgs) {
     return json({ error: 'Invalid form data' })
   }
 
-  const income = await prisma.income.update({
+  await prisma.income.update({
     where: {
       id
     },
@@ -60,28 +53,25 @@ export async function action({ request, params }: ActionArgs) {
       amount,
       dueDate: new Date(dueDate),
       categories: {
-              set: {
-          title,
-
-        },
-
+        set: {
+          title
+        }
       }
     }
   })
-  return json({ income })
+  return redirect('/')
 }
 
 export default function EditRoute() {
-  const { income } = useLoaderData<{ income: Income }>()
+  const { income } = useLoaderData<{
+    income: Incomes
+  }>()
 
-  const routeData = useRouteLoaderData('root') as {
-   categories:Categories[]
+  const { iCategories } = useRouteLoaderData('root') as {
+    iCategories: Categories[]
     user: { id: number; email: string }
   }
 
-  const iCategories = routeData.categories.filter(
-    (category) => category.type === 'income'
-  ) as IncomeCategory[]
   const [defaultOption] = income.categories.map(
     (category: { id: number; title: string }) => category.title
   )
@@ -139,8 +129,6 @@ export default function EditRoute() {
 
         <button type='submit'>Submit</button>
       </Form>
-
-      <pre className='text-xs'>{JSON.stringify(income, null, 2)}</pre>
     </div>
   )
 }

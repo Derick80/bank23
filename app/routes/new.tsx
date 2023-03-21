@@ -7,7 +7,7 @@ import CategoryCreator from '~/compoonents/category-creater'
 import { isAuthenticated } from '~/server/auth/auth.server'
 import { prisma } from '~/server/prisma.server'
 import { Categories, Expense } from '~/types/types'
-
+import dayjs from 'dayjs'
 export async function action({ request }: ActionArgs) {
   const user = await isAuthenticated(request)
   if (!user) {
@@ -39,9 +39,8 @@ export async function action({ request }: ActionArgs) {
           userId: user.id,
           categories: {
             connect: {
-              title,
-
-            },
+              title
+            }
           }
         }
       })
@@ -94,7 +93,7 @@ export default function NewRoute() {
           Source
         </label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border text-black shadow-sm'
           type='text'
           name='source'
         />
@@ -102,7 +101,7 @@ export default function NewRoute() {
           Amount
         </label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border text-black shadow-sm'
           type='number'
           name='amount'
         />
@@ -110,7 +109,7 @@ export default function NewRoute() {
           Due Date
         </label>
         <input
-          className='rounded-md border shadow-sm'
+          className='rounded-md border text-black shadow-sm'
           type='date'
           name='dueDate'
         />
@@ -122,7 +121,7 @@ export default function NewRoute() {
             Expense
           </label>
           <input
-            className='rounded-md border shadow-sm'
+            className='rounded-md border text-black shadow-sm'
             type='radio'
             name='type'
             value='expense'
@@ -132,7 +131,7 @@ export default function NewRoute() {
             Income
           </label>
           <input
-            className='rounded-md border shadow-sm'
+            className='rounded-md border text-black shadow-sm'
             type='radio'
             name='type'
             value='income'
@@ -162,12 +161,6 @@ export default function NewRoute() {
           Submit
         </button>
       </Form>
-      <details className='flex flex-col space-y-2'>
-        <summary className='font-semibold'>Create New Category</summary>
-        <CategoryCreator />
-      </details>
-      <pre className='text-xs'>{JSON.stringify(eCategories, null, 2)}</pre>
-      <pre className='text-xs'>{JSON.stringify(iCategories, null, 2)}</pre>
     </div>
   )
 }

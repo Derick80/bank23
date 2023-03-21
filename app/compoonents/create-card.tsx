@@ -3,12 +3,13 @@ import { useFetcher, useRouteLoaderData } from '@remix-run/react'
 import CategoryCreator from './category-creater'
 
 export default function NewCard({ type }: { type: 'income' | 'expense' }) {
-  const { eCategories,iCategories } = useRouteLoaderData('root') as {
+  // get category data from the root loader to populate the select element
+  const { eCategories, iCategories } = useRouteLoaderData('root') as {
     eCategories: { id: number; title: string; type: string }[]
     iCategories: { id: number; title: string; type: string }[]
     user: { id: number; email: string }
   }
-
+  // set up the fetchers
   const newFetcher = useFetcher()
 
   return (
@@ -26,7 +27,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
           Source
         </label>
         <input
-          className='rounded-md border shadow-sm text-black'
+          className='rounded-md border text-black shadow-sm'
           type='text'
           name='source'
         />
@@ -37,7 +38,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
           Amount
         </label>
         <input
-          className='rounded-md border shadow-sm text-black'
+          className='rounded-md border text-black shadow-sm'
           type='number'
           name='amount'
         />
@@ -48,9 +49,12 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
           Due Date
         </label>
         <input
-          className='rounded-md border shadow-sm text-black'
+          className='rounded-md border text-black shadow-sm'
           type='date'
           name='dueDate'
+          onChange={(e) => {
+            console.log(new Date(e.target.value), 'date')
+          }}
         />
         <label
           className='place-self-start text-xs font-bold text-black dark:text-slate-50'
@@ -66,7 +70,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
             Expense
           </label>
           <input
-            className='rounded-md border shadow-sm text-black'
+            className='rounded-md border text-black shadow-sm'
             type='radio'
             name='type'
             value='expense'
@@ -78,7 +82,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
             Income
           </label>
           <input
-            className='rounded-md border shadow-sm text-black'
+            className='rounded-md border text-black shadow-sm'
             type='radio'
             name='type'
             value='income'
@@ -86,7 +90,7 @@ export default function NewCard({ type }: { type: 'income' | 'expense' }) {
         </div>
 
         <select
-          className='rounded-md border shadow-sm text-black'
+          className='rounded-md border text-black shadow-sm'
           name='category'
           id='category'
         >

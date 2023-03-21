@@ -1,6 +1,7 @@
 import { json, LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import ItemCard from '~/compoonents/item-card'
+import { dateRange } from '~/server/functions.server'
 import { prisma } from '~/server/prisma.server'
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -8,9 +9,14 @@ export async function loader({ request, params }: LoaderArgs) {
   if (!categoryId) {
     throw new Error('No category id provided')
   }
-
+  const { now, then } = dateRange()
   const incomes = await prisma.income.findMany({
     where: {
+      dueDate: {
+        gte: now,
+        lte: then
+      },
+
       categories: {
         some: {
           id: categoryId
@@ -19,8 +25,10 @@ export async function loader({ request, params }: LoaderArgs) {
     },
     include: {
       categories: true
+    },
+    orderBy: {
+      dueDate: 'asc'
     }
-
   })
 
   const itemByCategory = incomes.map((income) => {
@@ -38,10 +46,9 @@ export async function loader({ request, params }: LoaderArgs) {
     }
   })
 
-
   return json({ itemByCategory })
 }
-export default function Index () {
+export default function Index() {
   const data = useLoaderData<typeof loader>()
   const { itemByCategory } = data
 
@@ -49,13 +56,13 @@ export default function Index () {
     <div className='flex min-h-screen flex-col items-center justify-center py-2'>
       <h1>Expenses</h1>
 
-      <ItemCard data={ itemByCategory } type='income' />
+      <ItemCard data={itemByCategory} type='income' />
 
       <hr />
       <details>
         <summary>income</summary>
-        <pre style={ { maxHeight: '200px', overflow: 'scroll' } }>
-          { JSON.stringify(itemByCategory, null, 2) }
+        <pre style={{ maxHeight: '200px', overflow: 'scroll' }}>
+          {JSON.stringify(itemByCategory, null, 2)}
         </pre>
       </details>
     </div>

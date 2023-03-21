@@ -6,7 +6,7 @@ import type { Session } from '@remix-run/node'
 import { discordStrategy } from './strategy/discord.server'
 import { getUser } from '../user.server'
 import { googleStrategy } from './strategy/google.server'
-
+// build authenticator and register strategies
 export const authenticator = new Authenticator<User['id']>(sessionStorage, {
   throwOnError: true
 })
@@ -15,6 +15,8 @@ authenticator.use(registerStrategy, 'register')
 authenticator.use(loginStrategy, 'login')
 authenticator.use(discordStrategy, 'discord')
 authenticator.use(googleStrategy, 'google')
+
+// export helper functions.  isAuthenticated will be used across the app to check if a user is logged in
 export const isAuthenticated = async (request: Request) => {
   const userId = await authenticator.isAuthenticated(request)
   if (!userId) return null

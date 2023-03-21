@@ -13,6 +13,12 @@
     "format": "prettier \"app/**/*.ts\" \"app/**/*.tsx\" --write . "
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/server": "^11.10.0",
+    "@mantine/core": "^6.0.2",
+    "@mantine/dates": "^6.0.2",
+    "@mantine/hooks": "^6.0.2",
+    "@mantine/remix": "^6.0.2",
     "@prisma/client": "^4.11.0",
     "@radix-ui/react-icons": "^1.2.0",
     "@remix-run/node": "^1.14.0",

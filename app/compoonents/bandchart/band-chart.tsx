@@ -19,8 +19,8 @@ export function BandChart({ bgFill, itemWidth, category }: BandChartProps) {
       }}
     >
       <Tooltip message={category}>
-        <p className='space-between flex translate-y-4 text-[8px]'>
-          {category.slice(0, 3)} {itemWidth}%{' '}
+        <p className='space-between flex text-[12px] text-black'>
+          {itemWidth}%{' '}
         </p>
       </Tooltip>
     </span>

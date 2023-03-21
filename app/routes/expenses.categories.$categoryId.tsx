@@ -1,6 +1,7 @@
 import { json, LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import ItemCard from '~/compoonents/item-card'
+import { dateRange } from '~/server/functions.server'
 import { prisma } from '~/server/prisma.server'
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -9,8 +10,13 @@ export async function loader({ request, params }: LoaderArgs) {
     throw new Error('No category id provided')
   }
 
+  const { now, then } = dateRange()
   const expenses = await prisma.expense.findMany({
     where: {
+      dueDate: {
+        gte: now,
+        lte: then
+      },
       categories: {
         some: {
           id: categoryId
@@ -19,6 +25,9 @@ export async function loader({ request, params }: LoaderArgs) {
     },
     include: {
       categories: true
+    },
+    orderBy: {
+      dueDate: 'asc'
     }
   })
 

@@ -1,7 +1,6 @@
 # Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
-
 ## Fly Setup
 
 1. [Install `flyctl`](https://fly.io/docs/getting-started/installing-flyctl/)
@@ -39,3 +38,9 @@ npm run deploy
 You can run `flyctl info` to get the url and ip address of your server.
 
 Check out the [fly docs](https://fly.io/docs/getting-started/node/) for more information.
+
+## Code Notes
+
+- import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
+{dayjs(item.dueDate).utcOffset(10).format('YYYY-MM-DD')}
