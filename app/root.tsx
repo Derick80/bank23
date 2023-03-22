@@ -8,6 +8,7 @@ import {
   ScrollRestoration
 } from '@remix-run/react'
 import stylesheet from '~/tailwind.css'
+import Layout from './compoonents/layout'
 import NavBar from './compoonents/nav'
 import { isAuthenticated } from './server/auth/auth.server'
 import { prisma } from './server/prisma.server'
@@ -40,12 +41,12 @@ export default function App() {
         <Links />
       </head>
       <body className='bg-slate-50 text-black dark:bg-slate-800 dark:text-slate-50'>
-        <NavBar>
+        <Layout>
           <Outlet />
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
-        </NavBar>
+        </Layout>
       </body>
     </html>
   )

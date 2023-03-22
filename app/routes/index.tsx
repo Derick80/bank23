@@ -59,8 +59,6 @@ export default function Index() {
     iByCandP: BandContainerObjectProps[]
   }>()
 
-  const [makeNew, setMakeNew] = React.useState(false)
-  const [makeNewIncome, setMakeNewIncome] = React.useState(false)
   const iSubTotal = data.incomes.reduce(
     (acc: number, income: { amount: number }) => acc + income.amount,
     0
@@ -81,24 +79,18 @@ export default function Index() {
         difference={difference}
       />
 
-      {/* Container */}
+      {/* Expenses */}
       <div className='flex w-full grow flex-col justify-center gap-5 md:flex-row'>
-        <div className='flex flex-col items-center border-2  py-2 text-center'>
+        <div className='flex w-[350px] flex-col items-center border-2 py-2 text-center md:w-[550px]'>
           <h1 className='text-4xl font-bold'>Expenses</h1>
           <NavLink to='/new' className='flex items-center gap-2'>
-            <button
-              className='flex items-center gap-2'
-              onClick={() => setMakeNew(!makeNew)}
-            >
-              <Tooltip message='Create'>
-                <div className='flex items-center gap-2'>
-                  <p>New</p>
-                  <PlusCircledIcon />
-                </div>
-              </Tooltip>
-            </button>
+            <Tooltip message='Create'>
+              <div className='flex items-center gap-2'>
+                <p>New</p>
+                <PlusCircledIcon />
+              </div>
+            </Tooltip>
           </NavLink>
-          {makeNew && <NewCard type={'expense'} />}
           <div className='flex flex-col items-center   py-2 text-center'>
             <h3 className='mb-4 text-xl font-bold'>
               Expenses by Category and Percentage
@@ -120,22 +112,17 @@ export default function Index() {
         </div>
 
         {/* incomes */}
-        <div className='flex flex-col items-center border-2  py-2 text-center'>
+        <div className='flex w-[350px] flex-col items-center border-2 py-2 text-center md:w-[550px]'>
+          {' '}
           <h1 className='text-4xl font-bold'>Incomes</h1>
           <NavLink to='/new' className='flex items-center gap-2'>
-            <button
-              className='flex items-center gap-2'
-              onClick={() => setMakeNewIncome(!makeNewIncome)}
-            >
-              <Tooltip message='Create'>
-                <div className='flex items-center gap-2'>
-                  <p>New</p>
-                  <PlusCircledIcon />
-                </div>
-              </Tooltip>
-            </button>
+            <Tooltip message='Create'>
+              <div className='flex items-center gap-2'>
+                <p>New</p>
+                <PlusCircledIcon />
+              </div>
+            </Tooltip>
           </NavLink>
-          {makeNewIncome && <NewCard type='income' />}
           <div className='flex flex-col items-center   py-2 text-center'>
             <h3 className='mb-5 text-2xl font-bold'>
               Expenses by Category and Percentage
@@ -172,8 +159,7 @@ function Summary({
 }) {
   return (
     <>
-      <h1 className='text-4xl font-bold'>Income Breakdown</h1>
-      <div className='flex flex-col items-center border-2  py-2 text-center'>
+      <div className='flex flex-col items-center  pb-2 text-center'>
         <div className='flex items-center gap-2'>
           <h1 className='text-2xl font-bold'>Expenses</h1>
           {eSubTotal}

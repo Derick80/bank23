@@ -25,8 +25,6 @@ export type ItemCardOtherProps = {
   type: 'income' | 'expense'
 }
 export default function ItemCard({ data, type }: ItemCardProps) {
-  console.log(type, 'type')
-
   // determine the type of category to use
 
   // use the type to determine the path or what route to submit data to
