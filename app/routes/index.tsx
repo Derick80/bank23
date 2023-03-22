@@ -20,11 +20,9 @@ import type {
 
 export async function loader({ request }: LoaderArgs) {
   const user = await isAuthenticated(request)
-  if (!user) {
-    return redirect('/login')
-  }
-  const incomes = await getCurrentIncomes(user.id)
-  const expenses = await getCurrentExpenses(user.id)
+
+  const incomes = await getCurrentIncomes(user?.id)
+  const expenses = await getCurrentExpenses(user?.id)
 
   // map over the incomes to return the new object
 
